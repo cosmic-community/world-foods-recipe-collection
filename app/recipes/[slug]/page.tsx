@@ -72,17 +72,17 @@ export default async function RecipePage({ params }: RecipePageProps) {
               height={400}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
           </div>
         )}
         
         <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">
               {recipe.title}
             </h1>
             {recipe.metadata?.description && (
-              <p className="text-lg md:text-xl max-w-3xl">
+              <p className="text-lg md:text-xl max-w-3xl text-white drop-shadow-md">
                 {recipe.metadata.description}
               </p>
             )}
