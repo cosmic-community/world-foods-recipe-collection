@@ -4,6 +4,7 @@ import type { AuthorCardProps } from '@/types'
 export default function AuthorCard({ author, className = '' }: AuthorCardProps) {
   const authorPhoto = author.metadata?.photo
   const socialLinks = author.metadata?.social_links
+  const website = author.metadata?.website
 
   return (
     <div className={`card p-8 group hover:shadow-lg transition-all duration-300 ${className}`}>
@@ -44,9 +45,9 @@ export default function AuthorCard({ author, className = '' }: AuthorCardProps) 
           )}
 
           {/* Social Links */}
-          {socialLinks && (
+          {(socialLinks || website) && (
             <div className="flex items-center space-x-3">
-              {socialLinks.instagram && (
+              {socialLinks?.instagram && (
                 <a
                   href={`https://instagram.com/${socialLinks.instagram.replace('@', '')}`}
                   target="_blank"
@@ -60,7 +61,7 @@ export default function AuthorCard({ author, className = '' }: AuthorCardProps) 
                 </a>
               )}
 
-              {socialLinks.youtube && (
+              {socialLinks?.youtube && (
                 <a
                   href={`https://youtube.com/@${socialLinks.youtube}`}
                   target="_blank"
@@ -74,9 +75,9 @@ export default function AuthorCard({ author, className = '' }: AuthorCardProps) 
                 </a>
               )}
 
-              {socialLinks.website || author.metadata?.website && (
+              {website && (
                 <a
-                  href={socialLinks.website || author.metadata?.website}
+                  href={website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-600 transition-colors"
