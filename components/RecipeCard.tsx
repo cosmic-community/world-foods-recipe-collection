@@ -10,17 +10,15 @@ export default function RecipeCard({ recipe, showAuthor = true, className = '' }
   const totalTime = (prepTime && cookTime) ? prepTime + cookTime : null
 
   return (
-    <article className={`card overflow-hidden group ${className}`}>
+    <article className={`bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-lg transition-shadow duration-300 ${className}`}>
       <Link href={`/recipes/${recipe.slug}`}>
         {/* Recipe Image */}
         {featuredImage?.imgix_url && (
-          <div className="aspect-w-16 aspect-h-10 relative overflow-hidden">
+          <div className="relative w-full h-48 overflow-hidden">
             <img
               src={`${featuredImage.imgix_url}?w=600&h=400&fit=crop&auto=format,compress`}
               alt={recipe.title}
-              width={300}
-              height={200}
-              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           </div>
         )}
@@ -29,12 +27,12 @@ export default function RecipeCard({ recipe, showAuthor = true, className = '' }
         <div className="p-6">
           {/* Difficulty Badge */}
           {difficulty && (
-            <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mb-3">
+            <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mb-3">
               {difficulty.value}
             </div>
           )}
 
-          <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
             {recipe.title}
           </h3>
 
@@ -72,8 +70,6 @@ export default function RecipeCard({ recipe, showAuthor = true, className = '' }
                 <img
                   src={`${author.metadata.photo.imgix_url}?w=80&h=80&fit=crop&auto=format,compress`}
                   alt={author.title}
-                  width={32}
-                  height={32}
                   className="w-8 h-8 rounded-full object-cover"
                 />
               )}
