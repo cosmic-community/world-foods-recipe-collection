@@ -1,8 +1,8 @@
-// app/recipes/[slug]/page.tsx
 import { getRecipe, getRecipes } from '@/lib/cosmic'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import type { Category } from '@/types'
 import CommentSection from '@/components/CommentSection'
 import RatingSystem from '@/components/RatingSystem'
 
@@ -136,7 +136,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
           {categories && categories.length > 0 && (
             <div className="mb-8">
               <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
+                {categories.map((category: Category) => (
                   <Link
                     key={category.id}
                     href={`/categories/${category.slug}`}

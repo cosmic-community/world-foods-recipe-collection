@@ -1,9 +1,9 @@
-// app/authors/[slug]/page.tsx
 import { getAuthor, getAuthors, getRecipesByAuthor } from '@/lib/cosmic'
 import RecipeCard from '@/components/RecipeCard'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import type { Recipe } from '@/types'
 
 interface AuthorPageProps {
   params: Promise<{ slug: string }>
@@ -167,7 +167,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
 
           {recipes.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {recipes.map((recipe) => (
+              {recipes.map((recipe: Recipe) => (
                 <RecipeCard key={recipe.id} recipe={recipe} />
               ))}
             </div>

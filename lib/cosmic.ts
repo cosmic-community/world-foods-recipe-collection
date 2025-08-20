@@ -19,7 +19,7 @@ export async function getHomePage(): Promise<HomePage | null> {
       .depth(1)
 
     return object as HomePage
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching home page:', error)
     return null
   }
@@ -37,14 +37,14 @@ export async function getRecipes(limit: number = 20): Promise<Recipe[]> {
       .limit(limit)
 
     return objects as Recipe[]
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching recipes:', error)
     return []
   }
 }
 
 // Get a single recipe by slug
-export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
+export async function getRecipe(slug: string): Promise<Recipe | null> {
   try {
     const { object } = await cosmic.objects
       .findOne({
@@ -55,31 +55,41 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
       .depth(1)
 
     return object as Recipe
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching recipe by slug:', error)
     return null
   }
 }
 
+// Get a single recipe by slug (alias for consistency)
+export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
+  return getRecipe(slug)
+}
+
 // Get all categories
-export async function getCategories(): Promise<Category[]> {
+export async function getCategories(limit?: number): Promise<Category[]> {
   try {
-    const { objects } = await cosmic.objects
+    let query = cosmic.objects
       .find({
         type: 'categories'
       })
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1)
 
+    if (limit) {
+      query = query.limit(limit)
+    }
+
+    const { objects } = await query
     return objects as Category[]
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching categories:', error)
     return []
   }
 }
 
 // Get a single category by slug
-export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+export async function getCategory(slug: string): Promise<Category | null> {
   try {
     const { object } = await cosmic.objects
       .findOne({
@@ -90,49 +100,70 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
       .depth(1)
 
     return object as Category
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching category by slug:', error)
     return null
   }
 }
 
+// Get a single category by slug (alias for consistency)
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  return getCategory(slug)
+}
+
 // Get recipes by category
-export async function getRecipesByCategory(categoryId: string): Promise<Recipe[]> {
+export async function getRecipesByCategory(categorySlug: string, limit?: number): Promise<Recipe[]> {
   try {
-    const { objects } = await cosmic.objects
+    // First get the category to find its ID
+    const category = await getCategory(categorySlug)
+    if (!category) {
+      return []
+    }
+
+    let query = cosmic.objects
       .find({
         type: 'recipes',
-        'metadata.categories': categoryId
+        'metadata.categories': category.id
       })
       .props(['id', 'title', 'slug', 'metadata', 'created_at'])
       .depth(1)
 
+    if (limit) {
+      query = query.limit(limit)
+    }
+
+    const { objects } = await query
     return objects as Recipe[]
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching recipes by category:', error)
     return []
   }
 }
 
 // Get all authors
-export async function getAuthors(): Promise<Author[]> {
+export async function getAuthors(limit?: number): Promise<Author[]> {
   try {
-    const { objects } = await cosmic.objects
+    let query = cosmic.objects
       .find({
         type: 'authors'
       })
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1)
 
+    if (limit) {
+      query = query.limit(limit)
+    }
+
+    const { objects } = await query
     return objects as Author[]
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching authors:', error)
     return []
   }
 }
 
 // Get a single author by slug
-export async function getAuthorBySlug(slug: string): Promise<Author | null> {
+export async function getAuthor(slug: string): Promise<Author | null> {
   try {
     const { object } = await cosmic.objects
       .findOne({
@@ -143,25 +174,41 @@ export async function getAuthorBySlug(slug: string): Promise<Author | null> {
       .depth(1)
 
     return object as Author
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching author by slug:', error)
     return null
   }
 }
 
+// Get a single author by slug (alias for consistency)
+export async function getAuthorBySlug(slug: string): Promise<Author | null> {
+  return getAuthor(slug)
+}
+
 // Get recipes by author
-export async function getRecipesByAuthor(authorId: string): Promise<Recipe[]> {
+export async function getRecipesByAuthor(authorSlug: string, limit?: number): Promise<Recipe[]> {
   try {
-    const { objects } = await cosmic.objects
+    // First get the author to find their ID
+    const author = await getAuthor(authorSlug)
+    if (!author) {
+      return []
+    }
+
+    let query = cosmic.objects
       .find({
         type: 'recipes',
-        'metadata.author': authorId
+        'metadata.author': author.id
       })
       .props(['id', 'title', 'slug', 'metadata', 'created_at'])
       .depth(1)
 
+    if (limit) {
+      query = query.limit(limit)
+    }
+
+    const { objects } = await query
     return objects as Recipe[]
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching recipes by author:', error)
     return []
   }
@@ -181,7 +228,7 @@ export async function getRecipeComments(recipeId: string): Promise<RecipeComment
       .sort('-created_at')
 
     return objects as RecipeComment[]
-  } catch (error) {
+  } catch (error: any) {
     if (error.status === 404) {
       return []
     }
@@ -212,7 +259,7 @@ export async function createRecipeComment(recipeId: string, commentData: Comment
     })
 
     return object as RecipeComment
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error creating recipe comment:', error)
     return null
   }
@@ -230,7 +277,7 @@ export async function getRecipeRatings(recipeId: string): Promise<RecipeRating[]
       .depth(1)
 
     return objects as RecipeRating[]
-  } catch (error) {
+  } catch (error: any) {
     if (error.status === 404) {
       return []
     }
@@ -279,10 +326,15 @@ export async function createRecipeRating(recipeId: string, ratingData: { rating_
     })
 
     return object as RecipeRating
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error creating recipe rating:', error)
     return null
   }
+}
+
+// Get rating statistics for a recipe (alias for calculateRatingStats)
+export async function calculateRatingStats(recipeId: string): Promise<RatingStats> {
+  return getRecipeRatingStats(recipeId)
 }
 
 // Get rating statistics for a recipe
@@ -314,7 +366,7 @@ export async function getRecipeRatingStats(recipeId: string): Promise<RatingStat
       totalRatings,
       ratingDistribution
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error calculating rating stats:', error)
     return {
       averageRating: 0,
