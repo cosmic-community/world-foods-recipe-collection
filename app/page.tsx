@@ -1,27 +1,43 @@
-import { getRecipes, getCategories, getAuthors } from '@/lib/cosmic'
+import { getRecipes, getCategories, getAuthors, getHomePage } from '@/lib/cosmic'
 import RecipeCard from '@/components/RecipeCard'
 import CategoryCard from '@/components/CategoryCard'
 import AuthorCard from '@/components/AuthorCard'
 import Link from 'next/link'
 
 export default async function HomePage() {
-  const [recipes, categories, authors] = await Promise.all([
+  const [recipes, categories, authors, homePage] = await Promise.all([
     getRecipes(6),
     getCategories(4),
-    getAuthors(2)
+    getAuthors(2),
+    getHomePage()
   ])
+
+  // Get hero background image from home page data or use default
+  const heroBackgroundImage = homePage?.metadata?.hero_background_image?.imgix_url 
+    ? `${homePage.metadata.hero_background_image.imgix_url}?w=2000&h=1200&fit=crop&auto=format,compress`
+    : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=2000&h=1200&fit=crop&auto=format,compress'
+
+  const heroTitle = homePage?.metadata?.hero_title || 'Discover World Foods'
+  const heroDescription = homePage?.metadata?.hero_description || 'Explore authentic recipes from around the globe, learn from talented chefs, and bring international flavors to your kitchen.'
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-50 to-orange-50 section-spacing">
-        <div className="max-w-7xl mx-auto container-padding text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
-            Discover World Foods
+      <section 
+        className="relative bg-gradient-to-br from-primary-50 to-orange-50 section-spacing overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${heroBackgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="max-w-7xl mx-auto container-padding text-center relative z-10">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in drop-shadow-lg">
+            {heroTitle}
           </h1>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-8 animate-slide-up">
-            Explore authentic recipes from around the globe, learn from talented chefs, 
-            and bring international flavors to your kitchen.
+          <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 animate-slide-up drop-shadow-md">
+            {heroDescription}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
             <Link href="/recipes" className="btn-primary">

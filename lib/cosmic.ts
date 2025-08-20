@@ -1,5 +1,5 @@
 import { createBucketClient } from "@cosmicjs/sdk"
-import type { Recipe, Author, Category } from "@/types"
+import type { Recipe, Author, Category, HomePage } from "@/types"
 
 const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG!,
@@ -7,6 +7,21 @@ const cosmic = createBucketClient({
   writeKey: process.env.COSMIC_WRITE_KEY,
   apiEnvironment: "staging"
 })
+
+// Home page function
+export async function getHomePage(): Promise<HomePage | null> {
+  try {
+    const { object } = await cosmic.objects
+      .findOne({ type: 'home', slug: 'home-page' })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1)
+    
+    return object as HomePage
+  } catch (error) {
+    console.error('Error fetching home page:', error)
+    return null
+  }
+}
 
 // Recipe functions
 export async function getRecipes(limit = 20): Promise<Recipe[]> {

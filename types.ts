@@ -12,6 +12,19 @@ interface CosmicObject {
   published_at?: string;
 }
 
+// Home page object type
+export interface HomePage extends CosmicObject {
+  type: 'home';
+  metadata: {
+    hero_title?: string;
+    hero_description?: string;
+    hero_background_image?: {
+      url: string;
+      imgix_url: string;
+    };
+  };
+}
+
 // Recipe object type with properly typed metadata
 export interface Recipe extends CosmicObject {
   type: 'recipes';
@@ -93,6 +106,10 @@ export function isAuthor(obj: CosmicObject): obj is Author {
 
 export function isCategory(obj: CosmicObject): obj is Category {
   return obj.type === 'categories';
+}
+
+export function isHomePage(obj: CosmicObject): obj is HomePage {
+  return obj.type === 'home';
 }
 
 // Utility types for common patterns

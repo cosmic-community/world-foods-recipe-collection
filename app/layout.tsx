@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description: 'Discover amazing recipes from around the world, learn from talented chefs, and explore diverse culinary traditions.',
   keywords: 'recipes, cooking, world food, international cuisine, chefs, food blog',
   authors: [{ name: 'World Foods Recipe Collection' }],
+  icons: {
+    icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍳</text></svg>',
+  },
   openGraph: {
     title: 'World Foods Recipe Collection',
     description: 'Discover amazing recipes from around the world, learn from talented chefs, and explore diverse culinary traditions.',
