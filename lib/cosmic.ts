@@ -19,7 +19,7 @@ export async function getHomePage(): Promise<HomePage | null> {
       .depth(1)
 
     return object as HomePage
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching home page:', error)
     return null
   }
@@ -37,7 +37,7 @@ export async function getRecipes(limit: number = 20): Promise<Recipe[]> {
       .limit(limit)
 
     return objects as Recipe[]
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching recipes:', error)
     return []
   }
@@ -55,7 +55,7 @@ export async function getRecipe(slug: string): Promise<Recipe | null> {
       .depth(1)
 
     return object as Recipe
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching recipe by slug:', error)
     return null
   }
@@ -82,7 +82,7 @@ export async function getCategories(limit?: number): Promise<Category[]> {
 
     const { objects } = await query
     return objects as Category[]
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching categories:', error)
     return []
   }
@@ -100,7 +100,7 @@ export async function getCategory(slug: string): Promise<Category | null> {
       .depth(1)
 
     return object as Category
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching category by slug:', error)
     return null
   }
@@ -134,7 +134,7 @@ export async function getRecipesByCategory(categorySlug: string, limit?: number)
 
     const { objects } = await query
     return objects as Recipe[]
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching recipes by category:', error)
     return []
   }
@@ -156,7 +156,7 @@ export async function getAuthors(limit?: number): Promise<Author[]> {
 
     const { objects } = await query
     return objects as Author[]
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching authors:', error)
     return []
   }
@@ -174,7 +174,7 @@ export async function getAuthor(slug: string): Promise<Author | null> {
       .depth(1)
 
     return object as Author
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching author by slug:', error)
     return null
   }
@@ -208,7 +208,7 @@ export async function getRecipesByAuthor(authorSlug: string, limit?: number): Pr
 
     const { objects } = await query
     return objects as Recipe[]
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching recipes by author:', error)
     return []
   }
@@ -259,7 +259,7 @@ export async function createRecipeComment(recipeId: string, commentData: Comment
     })
 
     return object as RecipeComment
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error creating recipe comment:', error)
     return null
   }
@@ -326,7 +326,7 @@ export async function createRecipeRating(recipeId: string, ratingData: { rating_
     })
 
     return object as RecipeRating
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error creating recipe rating:', error)
     return null
   }
@@ -366,7 +366,7 @@ export async function getRecipeRatingStats(recipeId: string): Promise<RatingStat
       totalRatings,
       ratingDistribution
     }
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error calculating rating stats:', error)
     return {
       averageRating: 0,

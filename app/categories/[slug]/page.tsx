@@ -1,3 +1,4 @@
+// app/categories/[slug]/page.tsx
 import { getCategory, getCategories, getRecipesByCategory } from '@/lib/cosmic'
 import RecipeCard from '@/components/RecipeCard'
 import Link from 'next/link'
@@ -10,7 +11,7 @@ interface CategoryPageProps {
 }
 
 export async function generateStaticParams() {
-  const categories = await getCategories(50)
+  const categories = await getCategories()
   return categories.map((category) => ({
     slug: category.slug,
   }))
@@ -47,7 +48,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params
   const [category, recipes] = await Promise.all([
     getCategory(slug),
-    getRecipesByCategory(slug, 50)
+    getRecipesByCategory(slug)
   ])
 
   if (!category) {

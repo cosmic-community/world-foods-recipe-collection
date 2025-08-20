@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function AuthorsPage() {
-  const authors = await getAuthors(50)
+  const authors = await getAuthors()
 
   return (
     <div className="min-h-screen bg-white">

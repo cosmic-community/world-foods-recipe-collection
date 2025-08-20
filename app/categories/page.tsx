@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function CategoriesPage() {
-  const categories = await getCategories(50)
+  const categories = await getCategories()
 
   return (
     <div className="min-h-screen bg-white">

@@ -1,3 +1,4 @@
+// app/recipes/[slug]/page.tsx
 import { getRecipe, getRecipes } from '@/lib/cosmic'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'

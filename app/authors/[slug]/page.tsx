@@ -1,3 +1,4 @@
+// app/authors/[slug]/page.tsx
 import { getAuthor, getAuthors, getRecipesByAuthor } from '@/lib/cosmic'
 import RecipeCard from '@/components/RecipeCard'
 import Link from 'next/link'
@@ -10,7 +11,7 @@ interface AuthorPageProps {
 }
 
 export async function generateStaticParams() {
-  const authors = await getAuthors(50)
+  const authors = await getAuthors()
   return authors.map((author) => ({
     slug: author.slug,
   }))
@@ -47,7 +48,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   const { slug } = await params
   const [author, recipes] = await Promise.all([
     getAuthor(slug),
-    getRecipesByAuthor(slug, 50)
+    getRecipesByAuthor(slug)
   ])
 
   if (!author) {
