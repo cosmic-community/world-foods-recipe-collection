@@ -3,6 +3,8 @@ import { getRecipe, getRecipes } from '@/lib/cosmic'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import CommentSection from '@/components/CommentSection'
+import RatingSystem from '@/components/RatingSystem'
 
 interface RecipePageProps {
   params: Promise<{ slug: string }>
@@ -82,10 +84,17 @@ export default async function RecipePage({ params }: RecipePageProps) {
               {recipe.title}
             </h1>
             {recipe.metadata?.description && (
-              <p className="text-lg md:text-xl max-w-3xl text-white drop-shadow-md">
+              <p className="text-lg md:text-xl max-w-3xl text-white drop-shadow-md mb-4">
                 {recipe.metadata.description}
               </p>
             )}
+            {/* Rating display in hero */}
+            <div className="mt-4">
+              <RatingSystem
+                recipeId={recipe.id}
+                readonly={true}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -203,6 +212,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
             </div>
           )}
+
+          {/* Comments and Ratings Section */}
+          <CommentSection recipeId={recipe.id} recipeSlug={recipe.slug} />
         </div>
       </section>
     </div>
