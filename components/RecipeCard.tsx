@@ -13,7 +13,7 @@ export default function RecipeCard({ recipe, showAuthor = true, className = '' }
     <article className={`card overflow-hidden group ${className}`}>
       <Link href={`/recipes/${recipe.slug}`}>
         {/* Recipe Image */}
-        {featuredImage && (
+        {featuredImage?.imgix_url && (
           <div className="aspect-w-16 aspect-h-10 relative overflow-hidden">
             <img
               src={`${featuredImage.imgix_url}?w=600&h=400&fit=crop&auto=format,compress`}
@@ -68,7 +68,7 @@ export default function RecipeCard({ recipe, showAuthor = true, className = '' }
           {/* Author */}
           {showAuthor && author && (
             <div className="flex items-center space-x-3 pt-4 border-t border-gray-100">
-              {author.metadata?.photo && (
+              {author.metadata?.photo?.imgix_url && (
                 <img
                   src={`${author.metadata.photo.imgix_url}?w=80&h=80&fit=crop&auto=format,compress`}
                   alt={author.title}

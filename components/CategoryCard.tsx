@@ -10,7 +10,7 @@ export default function CategoryCard({ category, className = '' }: CategoryCardP
       className={`card overflow-hidden group hover:shadow-lg transition-all duration-300 ${className}`}
     >
       {/* Category Image */}
-      {categoryImage && (
+      {categoryImage?.imgix_url && (
         <div className="aspect-w-16 aspect-h-10 relative overflow-hidden">
           <img
             src={`${categoryImage.imgix_url}?w=600&h=300&fit=crop&auto=format,compress`}
