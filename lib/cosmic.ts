@@ -222,7 +222,7 @@ export async function getRecipeComments(recipeId: string): Promise<RecipeComment
       .find({
         type: 'recipe-comments',
         'metadata.recipe': recipeId,
-        'metadata.status': 'approved'
+        'metadata.status': 'Approved'
       })
       .props(['id', 'title', 'slug', 'metadata', 'created_at'])
       .depth(1)
@@ -255,7 +255,7 @@ export async function createRecipeComment(recipeId: string, commentData: Comment
         author_email: commentData.author_email,
         comment_text: commentData.comment_text,
         rating: commentData.rating || null,
-        status: 'pending' // Always set to pending for moderation
+        status: 'Pending' // Use the display value, not the key value
       }
     })
 
